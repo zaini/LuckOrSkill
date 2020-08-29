@@ -9,8 +9,8 @@ class Person {
   public Person(Integer id) {
     Random rand = new Random();
     this.id = id;
-    skill = rand.nextInt(100);
-    luck = rand.nextInt(100);
+    skill = 1 + rand.nextInt(100);
+    luck = 1 + rand.nextInt(100);
     quality = (skill * 0.95) + (luck * 0.05);
   }
 }
