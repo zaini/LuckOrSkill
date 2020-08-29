@@ -6,7 +6,7 @@ class Person {
   public Double quality;
   public Integer id;
 
-  public Person(Integer id){
+  public Person(Integer id) {
     Random rand = new Random();
     this.id = id;
     skill = rand.nextInt(100);
@@ -17,35 +17,24 @@ class Person {
 
 class Main {
   public static void main(String[] args) {
-    List<Person> people = new ArrayList<Person>();
-    for (int i = 0; i < 100000; i++){
-      Person x = new Person(i);
-      people.add(x);
-      // System.out.println(x.id + ": " + x.skill + " " + x.luck + " " + x.quality);
+    List<Integer> luckOfTopQualityPeople = new ArrayList<>();
+
+    for (int j = 0; j < 1000; j++) {
+      List<Person> people = new ArrayList<Person>();
+
+      for (int i = 0; i < 18300; i++) {
+        people.add(new Person(i));
+      }
+
+      Comparator<Person> compareByQuality = (Person o1, Person o2) -> o1.quality.compareTo(o2.quality);
+      Collections.sort(people, compareByQuality.reversed());
+
+      for (int i = 0; i < 11; i++) {
+        luckOfTopQualityPeople.add(people.get(i).luck);
+      }
     }
 
-    System.out.println("\nTop 10 by skill");
-    Comparator<Person> compareBySkill = (Person o1, Person o2) -> o1.skill.compareTo(o2.skill);
-    Collections.sort(people, compareBySkill.reversed());
-    for (int i = 0; i < 10; i++){
-      Person x = people.get(i);
-      System.out.println(x.id + ": " + x.skill + " " + x.luck + " " + x.quality);
-    }
-
-    System.out.println("\nTop 10 by luck");
-    Comparator<Person> compareByLuck = (Person o1, Person o2) -> o1.luck.compareTo(o2.luck);
-    Collections.sort(people, compareByLuck.reversed());
-    for (int i = 0; i < 10; i++){
-      Person x = people.get(i);
-      System.out.println(x.id + ": " + x.skill + " " + x.luck + " " + x.quality);
-    }
-
-    System.out.println("\nTop 10 by overall quality");
-    Comparator<Person> compareByQuality = (Person o1, Person o2) -> o1.quality.compareTo(o2.quality);
-    Collections.sort(people, compareByQuality.reversed());
-    for (int i = 0; i < 10; i++){
-      Person x = people.get(i);
-      System.out.println(x.id + ": " + x.skill + " " + x.luck + " " + x.quality);
-    }
+    Double averageLuck = luckOfTopQualityPeople.stream().mapToInt(val -> val).average().orElse(0.0);
+    System.out.println(averageLuck);
   }
 }
